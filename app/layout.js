@@ -1,4 +1,6 @@
 import { AuthProvider } from "@/contexts/AuthContext";
+import theme from "@/theme";
+import { ThemeProvider } from "@mui/material";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
@@ -12,9 +14,11 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <AuthProvider>
+      <ThemeProvider theme={theme}>
       <html lang="en">
         <body className={inter.className}>{children}</body>
       </html>
+      </ThemeProvider>
     </AuthProvider>
   );
 }
