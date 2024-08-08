@@ -1,31 +1,48 @@
 "use client";
 
-import { Box, Button, Container, Stack, TextField } from "@mui/material";
-import { useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Stack,
+  TextField,
+} from "@mui/material";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const { user, loading, logout } = useAuth();
+  const router = useRouter();
   const [messages, setMessages] = useState([
     {
       role: "assistant",
       content:
-        "Hi! I'm the Headstarter support assistant. How can I help you today?",
+        `Hi ${user.name}! I'm the Headstarter support assistant. How can I help you today?`,
     },
   ]);
 
   const [prompt, setPrompt] = useState("");
-  const [response, setResponse] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState(false);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push("/login");
+    }
+  }, [loading, user, router]);
+
+  const handleLogout = async () => {
+    await logout();
+    router.push("/login");
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    setLoadingMessage(true);
     setError(null);
-    // setResponse("");
-    setMessages((prev) => [
-     ...prev,
-      { role: "user", content: prompt },
-    ]);
+    setMessages((prev) => [...prev, { role: "user", content: prompt }]);
 
     try {
       const res = await fetch("/api/chat", {
@@ -35,6 +52,7 @@ export default function Home() {
         },
         body: JSON.stringify({ prompt }),
       });
+      setPrompt("");
 
       if (!res.ok) {
         throw new Error("Failed to fetch data");
@@ -47,18 +65,34 @@ export default function Home() {
         const { value, done } = await reader.read();
         if (done) break;
         result += decoder.decode(value, { stream: true });
-        // setResponse((prev) => prev + result);
-        setMessages(prev => [...prev, {
-          role: "assistant",
-          content: result,
-        }])
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "assistant",
+            content: result,
+          },
+        ]);
       }
     } catch (err) {
       setError(err.message);
     } finally {
-      setLoading(false);
+      setLoadingMessage(false);
     }
   };
+
+  if (loading)
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          minHeight: "100vh",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
 
   return (
     <Container
@@ -102,7 +136,7 @@ export default function Home() {
                     : "secondary.main"
                 }
                 color="white"
-                width={"80%"}
+                maxWidth={"80%"}
                 borderRadius={5}
                 p={3}
               >
@@ -110,13 +144,7 @@ export default function Home() {
               </Box>
             </Box>
           ))}
-          {/* {error && <p style={{ color: "red" }}>{error}</p>}
-          {response && (
-            <div style={{ marginTop: "20px" }}>
-              <h2>Generated Content:</h2>
-              <p>{response}</p>
-            </div>
-          )} */}
+          {error && <p style={{ color: "red" }}>{error}</p>}
         </Stack>
         <Stack direction={"row"} spacing={2}>
           <TextField
@@ -126,7 +154,11 @@ export default function Home() {
             onChange={(e) => setPrompt(e.target.value)}
           />
           <Button variant="contained" onClick={handleSubmit} disabled={loading}>
-            {loading ? 'Generating...' : 'Generate'}
+            {/* {loading ? "Generating..." : "Generate"} */}
+            {loadingMessage ? "Generating..." : "Generate"}
+          </Button>
+          <Button variant="contained" onClick={handleLogout}>
+            Logout
           </Button>
         </Stack>
       </Stack>
