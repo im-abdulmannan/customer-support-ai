@@ -1,10 +1,10 @@
 import { useAuth } from "@/contexts/AuthContext";
 import {
-    AccountCircleOutlined,
-    KeyboardDoubleArrowLeft,
-    KeyboardDoubleArrowRight,
-    LogoutOutlined,
-    SettingsOutlined,
+  AccountCircleOutlined,
+  KeyboardDoubleArrowLeft,
+  KeyboardDoubleArrowRight,
+  LogoutOutlined,
+  SettingsOutlined,
 } from "@mui/icons-material";
 import { Box, Container } from "@mui/material";
 import { useRouter } from "next/navigation";
@@ -28,7 +28,13 @@ const SidebarComponent = () => {
   };
 
   return (
-    <Sidebar backgroundColor="#171c2e" collapsed={isCollapsed ? true : false}>
+    <Sidebar
+      backgroundColor="#171c2e"
+      collapsed={isCollapsed ? true : false}
+      rootStyles={{
+        border: "1px solid #28314f",
+      }}
+    >
       <Menu
         rootStyles={{
           padding: "12px",
@@ -38,7 +44,7 @@ const SidebarComponent = () => {
           marginTop: "10px",
           marginBottom: "10px",
           fontFamily: "sans-serif",
-          fontSize: "18px",
+          fontSize: "20px",
           fontWeight: 600,
         }}
       >
@@ -46,10 +52,12 @@ const SidebarComponent = () => {
           sx={{
             display: "flex",
             justifyContent: `${isCollapsed ? "center" : "space-between"}`,
-            alignItems: "center",
+            alignItems: "flex-start",
           }}
         >
-          {!isCollapsed && "Customer Support"}
+          <div>
+            {!isCollapsed && "Headstarter AI"}
+            </div>
           <div>
             {isCollapsed ? (
               <KeyboardDoubleArrowRight
@@ -82,7 +90,6 @@ const SidebarComponent = () => {
             )}
           </div>
         </Box>
-        {/* </MenuItem> */}
       </Menu>
 
       <Menu
@@ -146,9 +153,11 @@ const SidebarComponent = () => {
               display: "flex",
               gap: "10px",
               alignItems: "center",
+              justifyContent: `${isCollapsed ? "center" : "flex-start"}`,
             }}
           >
-            <SettingsOutlined /> <p>Settings</p>
+            <SettingsOutlined />
+            {!isCollapsed && <p>Settings</p>}
           </Box>
         </MenuItem>
         <MenuItem onClick={handleLogout}>
@@ -159,10 +168,11 @@ const SidebarComponent = () => {
               display: "flex",
               gap: "10px",
               alignItems: "center",
+              justifyContent: `${isCollapsed ? "center" : "flex-start"}`,
             }}
             disabled={loading}
           >
-            <LogoutOutlined /> <p>Logout</p>
+            <LogoutOutlined /> {!isCollapsed && <p>Logout</p>}
           </Box>
         </MenuItem>
       </Menu>

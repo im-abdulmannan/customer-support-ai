@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/contexts/AuthContext";
-import { Box, CircularProgress } from "@mui/material";
+import { Box, CircularProgress, useMediaQuery } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Appbar from "./components/Appbar";
@@ -11,6 +11,7 @@ import SidebarComponent from "./components/Sidebar";
 export default function Home() {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const isTabOrMobile = useMediaQuery("(max-width: 900px)");
 
   useEffect(() => {
     if (!loading && !user) {
@@ -32,17 +33,19 @@ export default function Home() {
       </Box>
     );
 
-  return (
-    <Box display="flex" flexDirection="row" height={"100vh"}>
-      <SidebarComponent />
-      <Box
-        sx={{
-          width: "100%",
-        }}
-      >
-        <Appbar />
-        <Chat />
+  if (!loading && user) {
+    return (
+      <Box display="flex" flexDirection="row" height={"100vh"}>
+        {!isTabOrMobile && <SidebarComponent />}
+        <Box
+          sx={{
+            width: "100%",
+          }}
+        >
+          <Appbar />
+          <Chat />
+        </Box>
       </Box>
-    </Box>
-  );
+    );
+  }
 }

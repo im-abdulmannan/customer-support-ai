@@ -31,7 +31,7 @@ const styles = (theme) =>
 
 const Chat = () => {
   const defaultTheme = styles();
-  const { user, loading, logout } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
   const [messages, setMessages] = useState([
     {
@@ -101,7 +101,7 @@ const Chat = () => {
           spacing={2}
           flexGrow={1}
           overflow="auto"
-          height={"79vh"}
+          height={"80vh"}
           padding={2}
         >
           {messages.map((message, index) => (
@@ -113,16 +113,14 @@ const Chat = () => {
               }
             >
               <Box
-                bgcolor={
-                  message.role === "assistant"
-                    ? "#1b223a"
-                    : "#2b3d7b72"
-                }
-                fontSize={"16px"}
+                bgcolor={message.role === "assistant" ? "#1b223a" : "#1a318235"}
                 color="white"
                 maxWidth={"80%"}
-                borderRadius={5}
-                p={3}
+                borderRadius={3}
+                sx={{
+                  p: "12px 15px",
+                  fontSize: { xs: "12px", sm: "14px", md: "16px"},
+                }}
               >
                 <Markdown>{message.content}</Markdown>
               </Box>
@@ -142,12 +140,13 @@ const Chat = () => {
         >
           <Paper
             sx={{
-              m: "5px",
+              margin: "5px",
               p: "4px",
               display: "flex",
               alignItems: "center",
               width: "100%",
-              backgroundColor: "transparent",
+              height: { sm: "100%" },
+              backgroundColor: "#171c2e",
               boxShadow: "0 3px 5px rgba(0, 0, 0, 0.2)",
               border: "1px solid #384558",
               borderRadius: 2,
