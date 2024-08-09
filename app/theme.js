@@ -19,6 +19,20 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: () => ({
         body: { backgroundColor: "#171c2e", color: "white" },
+        "::-webkit-scrollbar": {
+          width: "8px",
+          height: "8px",
+        },
+        "::-webkit-scrollbar-thumb": {
+          backgroundColor: "#0b1022",
+          borderRadius: "10px",
+        },
+        "::-webkit-scrollbar-thumb:hover": {
+          backgroundColor: "#0b0d16",
+        },
+        "::-webkit-scrollbar-track": {
+          backgroundColor: "#171c2e",
+        },
       }),
     },
   },

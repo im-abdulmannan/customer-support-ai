@@ -118,9 +118,9 @@ const SidebarComponent = () => {
             sx={{
               display: "flex",
               flexDirection: "column",
-              gap: "10px",
               justifyContent: "space-between",
-              fontSize: "22px",
+              alignItems: "center",
+              fontSize: "16px",
             }}
           >
             <Box>{user && user.name}</Box>
