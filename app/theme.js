@@ -35,6 +35,64 @@ const theme = createTheme({
         },
       }),
     },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          "& .MuiInputBase-input": {
+            color: "#fff",
+            "& .placeholder": {
+              color: "#fff",
+              opacity: 1,
+            },
+          },
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: "#1976d2",
+            },
+            "&:hover fieldset": {
+              borderColor: "#1976df",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "#1976d2",
+            },
+          },
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: "#fff",
+          opacity: 0.6,
+          "&.Mui-focused": {
+            color: "#1976d2",
+          },
+        },
+      },
+    },
+    MuiIcon: {
+      styleOverrides: {
+        root: {
+          borderColor: "#fff",
+        },
+      },
+    },
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          backgroundColor: "#171c2e",
+          color: "#fff",
+        },
+      },
+    },
+    MuiDialogContentText: {
+      styleOverrides: {
+        root: {
+          color: "#fff",
+          opacity: 0.8,
+        },
+      },
+    },
   },
 });
 
