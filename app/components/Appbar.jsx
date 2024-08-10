@@ -42,7 +42,7 @@ export default function Appbar() {
               component="div"
               sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
             >
-              Supportive Bot
+              Assistant Bot
             </Typography>
             <Tooltip title="Open settings">
               <IconButton sx={{ p: 0 }}>
